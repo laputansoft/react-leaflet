@@ -37,7 +37,7 @@ class Popup extends DivOverlay<LeafletElement, Props> {
   }
 
   componentDidMount() {
-    const { position } = this.props
+    const { position, isOpen } = this.props
     const { map, popupContainer } = this.props.leaflet
     const el = this.leafletElement
 
@@ -50,7 +50,12 @@ class Popup extends DivOverlay<LeafletElement, Props> {
 
     if (popupContainer) {
       // Attach to container component
-      popupContainer.bindPopup(el)
+      const marker = popupContainer.bindPopup(el);
+      if (isOpen) {
+        setTimeout(() => {
+          marker.openPopup();
+        }, 1);
+      }
     } else {
       // Attach to a Map
       if (position) {
